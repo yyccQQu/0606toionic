@@ -1,0 +1,12 @@
+dir: 查看当前目录
+
+用ionic生成目录
+    ionic g 
+    ionic g page chat
+
+
+
+
+
+
+
