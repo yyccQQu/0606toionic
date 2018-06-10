@@ -1,7 +1,16 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { LoginPage } from '../login/login';
+import { Component } from "@angular/core";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ModalController,
+  LoadingController
+} from "ionic-angular";
+import { LoginPage } from "../login/login";
 import { Storage } from "@ionic/storage";
+import { BaseUI } from "../../common/baseui";
+import { RestProvider } from "../../providers/rest/rest";
+import { UserPage } from "../user/user";
 /**
  * Generated class for the MorePage page.
  *
@@ -14,20 +23,29 @@ import { Storage } from "@ionic/storage";
   selector: "page-more",
   templateUrl: "more.html"
 })
-export class MorePage {
+export class MorePage extends BaseUI {
   public notLogin: boolean = true;
   public logined: boolean = false;
+  headface: string;
+  userinfo: string[];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
+    public loadCtrl: LoadingController,
+    public rest: RestProvider,
     public storage: Storage
-  ) {}
-
+  ) {
+    super();
+  }
 
   showModal() {
     let modal = this.modalCtrl.create(LoginPage);
+    //关闭后的回调
+    modal.onDidDismiss(() => {
+      this.loadUserPage();
+    });
     modal.present();
   }
 
@@ -36,17 +54,26 @@ export class MorePage {
   }
 
   loadUserPage() {
-    this.storage.get('UserId').then((val) => {
+    this.storage.get("UserId").then(val => {
       console.log(val);
       if (val != null) {
-        this.notLogin = false;
-        this.logined = true;
-      }
-      else {
+        //加载用户数据
+        var loading = super.showLoading(this.loadCtrl, "加载中...");
+        this.rest.getUserInfo(val).subscribe(userinfo => {
+          this.userinfo = userinfo;
+          this.headface = userinfo["UserHeadface"] + "?" + new Date().valueOf();//加时间戳防止缓存
+          this.notLogin = false;
+          this.logined = true;
+          loading.dismiss();
+        });
+      } else {
         this.notLogin = true;
         this.logined = false;
       }
     });
   }
 
+  gotoUserPage() {
+    this.navCtrl.push(UserPage);
+  }
 }

@@ -25,42 +25,83 @@ export class RestProvider {
   }
 
   //feed
-  private apiUrlFeeds = 'https://imoocqa.gugujiankong.com/api/feeds/get';
+  private apiUrlFeeds = "https://imoocqa.gugujiankong.com/api/feeds/get";
 
   //account
-  private apiUrlRegister = 'https://imoocqa.gugujiankong.com/api/account/register';
-  private apiUrlLogin = 'https://imoocqa.gugujiankong.com/api/account/login';
-  private apiUrlLoginWithMd5 = 'https://imoocqa.gugujiankong.com/api/account/loginwithmd5';
-  private apiUrlUserInfo = 'https://imoocqa.gugujiankong.com/api/account/userinfo';
-  private apiUrlUpdateNickName = 'https://imoocqa.gugujiankong.com/api/account/updatenickname';
+  private apiUrlRegister =
+    "https://imoocqa.gugujiankong.com/api/account/register";
+  private apiUrlLogin = "https://imoocqa.gugujiankong.com/api/account/login";
+  private apiUrlLoginWithMd5 =
+    "https://imoocqa.gugujiankong.com/api/account/loginwithmd5";
+  private apiUrlUserInfo =
+    "https://imoocqa.gugujiankong.com/api/account/userinfo";
+  private apiUrlUpdateNickName =
+    "https://imoocqa.gugujiankong.com/api/account/updatenickname";
   //question
-  private apiUrlQuestionSave = 'https://imoocqa.gugujiankong.com/api/question/save';
-  private apiUrlQuestionList = 'https://imoocqa.gugujiankong.com/api/question/list?index=1&number=10';
-  private apiUrlGetQuestion = "https://imoocqa.gugujiankong.com/api/question/get";
+  private apiUrlQuestionSave =
+    "https://imoocqa.gugujiankong.com/api/question/save";
+  private apiUrlQuestionList =
+    "https://imoocqa.gugujiankong.com/api/question/list?index=1&number=10";
+  private apiUrlGetQuestion =
+    "https://imoocqa.gugujiankong.com/api/question/get";
   private apiUrlAnswer = "https://imoocqa.gugujiankong.com/api/question/answer";
 
   /**
- * 根据用户的手机号码和密码进行登录
- * 
- * @param {any} mobile 
- * @param {any} password 
- * @returns {Observable<string[]>} 
- * @memberof RestProvider
- */
+   * 根据用户的手机号码和密码进行登录
+   *
+   * @param {any} mobile
+   * @param {any} password
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
   login(mobile, password): Observable<string[]> {
-    return this.getUrlReturn(this.apiUrlLogin + "?mobile=" + mobile + "&password=" + password);
+    return this.getUrlReturn(
+      this.apiUrlLogin + "?mobile=" + mobile + "&password=" + password
+    );
+  }
+
+  getUserInfo(userId): Observable<string[]> {
+    return this.getUrlReturn(this.apiUrlUserInfo + "?userid=" + userId);
+  }
+
+  updateNickName(userId, nickname): Observable<string[]> {
+    return this.getUrlReturn(
+      this.apiUrlUpdateNickName + "?userid=" + userId + "&nickname=" + nickname
+    );
+  }
+  /**
+   * 登录，密码 MD5 加密后的登录功能
+   *
+   * @param {any} mobile
+   * @param {any} password
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
+  loginWithMd5(mobile, password): Observable<string[]> {
+    return this.getUrlReturn(
+      this.apiUrlLoginWithMd5 + "?mobile=" + mobile + "&password=" + password
+    );
   }
 
   /**
- * 登录，密码 MD5 加密后的登录功能
- * 
- * @param {any} mobile 
- * @param {any} password 
- * @returns {Observable<string[]>} 
- * @memberof RestProvider
- */
-  loginWithMd5(mobile, password): Observable<string[]> {
-    return this.getUrlReturn(this.apiUrlLoginWithMd5 + "?mobile=" + mobile + "&password=" + password);
+   * 注册请求
+   *
+   * @param {any} mobile
+   * @param {any} nickname
+   * @param {any} password
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
+  register(mobile, nickname, password): Observable<string[]> {
+    return this.getUrlReturn(
+      this.apiUrlRegister +
+        "?mobile=" +
+        mobile +
+        "&nickname=" +
+        nickname +
+        "&password=" +
+        password
+    );
   }
 
   private getUrlReturn(url: string): Observable<string[]> {

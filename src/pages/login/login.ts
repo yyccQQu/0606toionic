@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {
-  IonicPage,
   NavController,
   NavParams,
   ViewController,
@@ -12,6 +11,7 @@ import { Storage } from '@ionic/storage';
 import { Md5 } from 'ts-md5/dist/md5'; //导入 MD5 加密的包
 import { BaseUI } from '../../common/baseui';
 import { RestProvider } from "../../providers/rest/rest";
+import { RegisterPage } from '../register/register';
 
 /**
  * Generated class for the LoginPage page.
@@ -24,8 +24,7 @@ import { RestProvider } from "../../providers/rest/rest";
   selector: "page-login",
   templateUrl: "login.html"
 })
-export class LoginPage extends BaseUI{
-
+export class LoginPage extends BaseUI {
   mobile: any;
   password: any;
   errorMessage: any;
@@ -48,22 +47,20 @@ export class LoginPage extends BaseUI{
 
   login() {
     var loading = super.showLoading(this.loadingCtrl, "登录中...");
-    this.rest.loginWithMd5(this.mobile, Md5.hashStr(this.password))
-      .subscribe(
-        f => {
-          if (f["Status"] == "OK") {
-            //处理登录成功的页面跳转
-            //你也可以存储接口返回的 token
-            this.storage.set('UserId', f["UserId"]);
-            loading.dismiss();
-            this.dismiss();
-          }
-          else {
-            loading.dismiss();
-            super.showToast(this.toastCtrl, f["StatusContent"]);
-          }
-        },
-        error => this.errorMessage = <any>error);
+    this.rest
+      .loginWithMd5(this.mobile, Md5.hashStr(this.password))
+      .subscribe(f => {
+        if (f["Status"] == "OK") {
+          //处理登录成功的页面跳转
+          //你也可以存储接口返回的 token
+          this.storage.set("UserId", f["UserId"]);
+          loading.dismiss();
+          this.dismiss();
+        } else {
+          loading.dismiss();
+          super.showToast(this.toastCtrl, f["StatusContent"]);
+        }
+      }, error => (this.errorMessage = <any>error));
   }
 
   /**
@@ -73,5 +70,9 @@ export class LoginPage extends BaseUI{
    */
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  pushRegisterPage() {
+    this.navCtrl.push(RegisterPage);
   }
 }
