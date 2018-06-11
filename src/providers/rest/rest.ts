@@ -45,6 +45,10 @@ export class RestProvider {
   private apiUrlGetQuestion =
     "https://imoocqa.gugujiankong.com/api/question/get";
   private apiUrlAnswer = "https://imoocqa.gugujiankong.com/api/question/answer";
+  private apiUrlGetQuestionWithUser =
+    "https://imoocqa.gugujiankong.com/api/question/getwithuser";
+  private apiUrlSaveFavourite =
+    "https://imoocqa.gugujiankong.com/api/question/savefavourite";
 
   /**
    * 根据用户的手机号码和密码进行登录
@@ -77,7 +81,7 @@ export class RestProvider {
       this.apiUrlUpdateNickName + "?userid=" + userId + "&nickname=" + nickname
     );
   }
-  
+
   /**
    * 登录，密码 MD5 加密后的登录功能
    *
@@ -113,6 +117,62 @@ export class RestProvider {
     );
   }
 
+  /**
+   * 获取问题的详情
+   *
+   * @param {any} id
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
+  getQuestion(id): Observable<string[]> {
+    return this.getUrlReturn(this.apiUrlGetQuestion + "?id=" + id);
+  }
+
+  /**
+   * 获取问题的详情，传递 userid 获取到当前用户有没有关注此问题
+   *
+   * @param {any} questionId
+   * @param {any} userId
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
+  getQuestionWithUser(questionId, userId): Observable<string[]> {
+    return this.getUrlReturn(
+      this.apiUrlGetQuestionWithUser + "?id=" + questionId + "&userid=" + userId
+    );
+  }
+
+  saveFavourite(questionId, userId): Observable<string[]> {
+    return this.getUrlReturn(
+      this.apiUrlSaveFavourite +
+        "?questionid=" +
+        questionId +
+        "&userid=" +
+        userId
+    );
+  }
+
+  answer(userId, questionId, content): Observable<string[]> {
+    return this.getUrlReturn(
+      this.apiUrlAnswer +
+        "?userid=" +
+        userId +
+        "&questionid=" +
+        questionId +
+        "&content=" +
+        content
+    );
+  }
+
+  /**
+   * 请求首页的 feeds 流
+   *
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
+  getFeeds(): Observable<string[]> {
+    return this.getUrlReturn(this.apiUrlFeeds);
+  }
 
   /**
    * 注册请求

@@ -28,6 +28,8 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { QuestionPage } from '../pages/question/question';
+import { DetailsPage } from '../pages/details/details';
+import { AnswerPage } from '../pages/answer/answer';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { QuestionPage } from '../pages/question/question';
     TabsPage,
     UserPage,
     HeadfacePage,
-    QuestionPage
+    QuestionPage,
+    DetailsPage,
+    AnswerPage
   ],
   imports: [
     BrowserModule,
@@ -66,7 +70,9 @@ import { QuestionPage } from '../pages/question/question';
     TabsPage,
     UserPage,
     HeadfacePage,
-    QuestionPage
+    QuestionPage,
+    DetailsPage,
+    AnswerPage
   ],
   providers: [
     StatusBar,
