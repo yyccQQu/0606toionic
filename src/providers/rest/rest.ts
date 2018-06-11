@@ -64,11 +64,20 @@ export class RestProvider {
     return this.getUrlReturn(this.apiUrlUserInfo + "?userid=" + userId);
   }
 
+  /**
+   *
+   *
+   * @param {*} userId
+   * @param {*} nickname
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
   updateNickName(userId, nickname): Observable<string[]> {
     return this.getUrlReturn(
       this.apiUrlUpdateNickName + "?userid=" + userId + "&nickname=" + nickname
     );
   }
+  
   /**
    * 登录，密码 MD5 加密后的登录功能
    *
@@ -82,6 +91,28 @@ export class RestProvider {
       this.apiUrlLoginWithMd5 + "?mobile=" + mobile + "&password=" + password
     );
   }
+
+  /**
+   * 保存提问
+   *
+   * @param {any} userId
+   * @param {any} title
+   * @param {any} content
+   * @returns {Observable<string[]>}
+   * @memberof RestProvider
+   */
+  saveQuestion(userId, title, content): Observable<string[]> {
+    return this.getUrlReturn(
+      this.apiUrlQuestionSave +
+        "?userid=" +
+        userId +
+        "&title=" +
+        title +
+        "&content=" +
+        content
+    );
+  }
+
 
   /**
    * 注册请求
